@@ -1,0 +1,112 @@
+{% extends 'base/base.html' %}
+{% block title %}
+<title>修改商品</title>
+{% endblock %}
+
+{% block content %}
+    <h1>修改商品</h1>
+    <form action="{{ url_for('mall.product_edit', uid=prod_obj.uid) }}" method="post" enctype="multipart/form-data">
+        {{ form.csrf_token }}
+
+    <div class="form-group">
+        {# 商品标题 #}
+        {{ form.name.label }}
+        {{ form.name }}
+        <p class="help-block">{{ form.name.description }}</p>
+    </div>
+
+    <div class="form-group">
+        {# 商品描述 #}
+        {{ form.content.label }}
+        {{ form.content }}
+    </div>
+
+    <div class="form-group">
+        {# 商品推荐语 #}
+        {{ form.desc.label }}
+        {{ form.desc }}
+    </div>
+
+    <div class="form-group">
+        {# 商品类型 #}
+        {{ form.types.label }}
+        {{ form.types }}
+    </div>
+
+    <div class="form-group">
+        {# 销售价格 #}
+        {{ form.price.label }}
+        {{ form.price }}
+    </div>
+
+    <div class="form-group">
+        {# 商品原价 #}
+        {{ form.origin_price.label }}
+        {{ form.origin_price }}
+    </div>
+
+    <div class="form-group">
+        {# 商品主图 #}
+        {{ form.img.label }}
+        {{ form.img }}
+    </div>
+
+    <div class="form-group">
+        {# 渠道 #}
+        {{ form.channel.label }}
+        {{ form.channel }}
+    </div>
+
+    <div class="form-group">
+        {# 链接 #}
+        {{ form.buy_link.label }}
+        {{ form.buy_link }}
+    </div>
+
+    <div class="form-group">
+        {# 商品状态 #}
+        {{ form.status.label }}
+        {{ form.status }}
+    </div>
+
+    <div class="form-group">
+        {# 库存 #}
+        {{ form.sku_count.label }}
+        {{ form.sku_count }}
+    </div>
+
+    <div class="form-group">
+        {# 剩余库存 #}
+        {{ form.remain_count.label }}
+        {{ form.remain_count }}
+    </div>
+
+    <div class="form-group">
+        {# 浏览次数 #}
+        {{ form.view_count.label }}
+        {{ form.view_count }}
+    </div>
+
+    <div class="form-group">
+        {# 评分 #}
+        {{ form.score.label }}
+        {{ form.score }}
+    </div>
+
+    <div class="checkbox">
+        {# 逻辑删除 #}
+        <label>
+            {{ form.is_valid }} {{ form.is_valid.label.text }}
+        </label>
+    </div>
+
+    <div class="form-group">
+        {# 排序 #}
+        {{ form.reorder.label }}
+        {{ form.reorder }}
+    </div>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+
+    </form>
+{% endblock %}

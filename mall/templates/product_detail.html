@@ -1,0 +1,10 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    <title>{{ prod_obj.name }}</title>
+{% endblock %}
+
+{% block content %}
+    <h2>{{ prod_obj.name }}</h2>
+    <p>{{ prod_obj.desc }}</p>
+{% endblock %}

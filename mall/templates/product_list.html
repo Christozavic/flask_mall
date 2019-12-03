@@ -1,0 +1,105 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    <title>商品管理</title>
+{% endblock %}
+{% block content %}
+
+  <h2 class="sub-header">商品列表</h2>
+  <div class="table-responsive">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>名称</th>
+          <th>价格</th>
+          <th>状态</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in page_data.items %}
+        <tr>
+          <td>{{ product.id }}</td>
+          <td>{{ product.name }}</td>
+          <td>{{ product.price }}</td>
+          <td>{{ product.status }}</td>
+          <td>
+            <!-- Single button -->
+            <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                操作 <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu">
+                <li><a href="{{ url_for('mall.product_detail', uid=product.uid) }}">详情</a></li>
+                <li><a href="{{ url_for('mall.product_edit', uid=product.uid) }}">修改</a></li>
+                <li><a href="#" class="del-prod" data-uid="{{ url_for('mall.product_delete', uid=product.uid) }}">删除</a></li>
+                <li role="separator" class="divider"></li>
+                <li><a href="#">Separated link</a></li>
+              </ul>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+<!-- 分页 -->
+<nav aria-label="Page navigation" class="pull-right">
+  总共{{ page_data.pages }}页，总共{{ page_data.total }}条记录
+  {% set name=request.args.get('name', '') %}
+  <ul class="pagination">
+    {% if page_data.has_prev %}
+        <li>
+          <a href="{{ url_for('mall.product_list', page=page_data.prev_num) }}?name={{ name }}" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+    {% else %}
+        <li class="disabled">
+          <a href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+    {% endif %}
+
+    {% for page_num in page_data.iter_pages() %}
+    <li><a href="{{ url_for('mall.product_list', page=page_num) }}?name={{ name }}">{{ page_num }}</a></li>
+    {% endfor %}
+
+    {% if page_data.has_next %}
+    <li>
+      <a href="{{ url_for('mall.product_list', page=page_data.next_num) }}?name={{ name }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% else %}
+    <li class="disabled">
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>
+{% endblock %}
+
+{% block extrajs %}
+    <script>
+    $('.del-prod').click(function () {
+        var url = $(this).attr('data-uid');
+        var tr = $(this).parents('tr');
+        {#alert(url);#}
+        if(window.confirm('确认删除吗？')){
+            $.get(url, function (rest) {
+                if(rest === 'DELETED!'){
+                    tr.addClass('hidden');
+                    alert('删除成功！')
+                }else {
+                    alert('删除失败！')
+                }
+            })
+        }
+    })
+    </script>
+{% endblock %}
